@@ -22,7 +22,7 @@ export const ui = {
     'pages.projects.title': 'Projects',
     'pages.projects.description': 'All projects',
     'pages.projects.allProjects': 'All projects',
-    'pages.projects.showcase': 'Showcase your projects',
+    'pages.projects.showcase': 'If you want to see a quick showcase of my projects, you can check them out here.',
     'pages.blog.title': 'Blog',
     'pages.blog.description': 'All blog posts',
     'pages.404.title': '404 - Not Found',

@@ -32,7 +32,6 @@ const articleOgDetails = {
   modifiedTime: post.data.lastmod,
   authors: authors.map(({ data }) => data.name),
   authorTwitter: authors.map(({ data }) => data.twitter).at(0),
-  tags: tags.map(({ data }) => data.name),
   cover: post.data.cover,
 };
 
@@ -87,15 +86,6 @@ const { Content, headings } = await post.render();
           )
         }
         {
-          ["top", "both"].includes(POST_METADATA.showShareButtons) ? (
-            <SocialShareButtons
-              title={post.data.title}
-              description={post.data.summary}
-              class="mt-4"
-            />
-          ) : null
-        }
-        {
           headings.length > 0 && POST_METADATA.showTableOfContents && (
             <DetailsSummary
               class="border border-gray-100 dark:border-gray-600 rounded mt-4 max-w-none"
@@ -129,14 +119,6 @@ const { Content, headings } = await post.render();
             <Content />
           </div>
         </div>
-        {
-          ["bottom", "both"].includes(POST_METADATA.showShareButtons) ? (
-            <SocialShareButtons
-              title={post.data.title}
-              description={post.data.summary}
-            />
-          ) : null
-        }
         <!--{siteMetadata.comments && (-->
         <!--        <div class="pb-6 pt-6 text-center text-gray-700 dark:text-gray-300" id="comment">-->
         <!--            <Comments slug={slug} />-->

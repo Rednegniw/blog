@@ -15,9 +15,9 @@ interface Props {
 const { title, description, imgSrc, href } = Astro.props;
 ---
 
-<div class="md max-w-[544px] p-4 md:w-1/2">
+<div class="md:max-w-[544px] p-4 md:w-1/2">
   <div
-    class:list={`${imgSrc && "h-full"} overflow-hidden rounded-md border-2 border-gray-200 border-opacity-60 dark:border-gray-700`}
+    class:list={`${imgSrc && "h-full"} overflow-hidden rounded-xl border-2 border-gray-200 border-opacity-60 dark:border-gray-700`}
   >
     {
       imgSrc &&

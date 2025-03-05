@@ -18,6 +18,7 @@ if (Astro.props.tag) {
   const { slug, data } = Astro.props.tag;
   tagData = { slug, name: data.name };
 }
+
 // If slug is provided, try to fetch the tag
 else if (Astro.props.slug) {
   try {

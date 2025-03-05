@@ -4,19 +4,40 @@ import { type CollectionEntry, getEntry } from "astro:content";
 
 interface Props {
   tag?: CollectionEntry<"tags">;
-  slug?: CollectionEntry<"tags">["slug"];
+  slug?: string;
 }
-let TagProp = Astro.props.tag;
 
-if (!TagProp && Astro.props.slug) {
-  TagProp = await getEntry("tags", Astro.props.slug);
+// Initialize with a default tag data structure
+let tagData = {
+  slug: "default",
+  name: "Default"
+};
+
+// If tag is provided directly, use it
+if (Astro.props.tag) {
+  const { slug, data } = Astro.props.tag;
+  tagData = { slug, name: data.name };
 }
-const { slug, data } = TagProp!;
+// If slug is provided, try to fetch the tag
+else if (Astro.props.slug) {
+  try {
+    const tagEntry = await getEntry("tags", Astro.props.slug);
+    if (tagEntry) {
+      tagData = { 
+        slug: tagEntry.slug, 
+        name: tagEntry.data.name 
+      };
+    }
+  } catch (error) {
+    console.error(`Error loading tag with slug "${Astro.props.slug}":`, error);
+    // Keep using the default tag data
+  }
+}
 ---
 
 <Link
-  href={`/tags/${slug}`}
+  href={`/tags/${tagData.slug}`}
   class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
 >
-  {data.name}
+  {tagData.name}
 </Link>

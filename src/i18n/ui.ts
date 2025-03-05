@@ -3,9 +3,9 @@ export const defaultLang = 'en' as const;
 export const ui = {
   'en': {
     // Site Metadata
-    'siteMetadata.title': 'Astro Starter Blog',
-    'siteMetadata.headerTitle': 'Astro Starter Blog',   
-    'siteMetadata.description': 'A blog created with Astro and Tailwind.css',
+    'siteMetadata.title': 'Antonín Wingender\'s blog',
+    'siteMetadata.headerTitle': 'Antonín Wingender\'s blog',   
+    'siteMetadata.description': 'A blog about my projects and ideas I\'ve come across.',
     'siteMetadata.language': 'en-US',
 
     // Pages

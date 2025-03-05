@@ -4,6 +4,7 @@
  * A few of these are not used yet, and are subject to change, example of this is Author.
  */
 export const SITE_METADATA = {
+  title: "Antonín Wingender's Blog",
   theme: "system", // Options: system, light, dark
   siteUrl: "https://tasb.yon.fun/",
   siteRepo: "https://github.com/wanoo21/tailwind-astro-starting-blog",

@@ -10,12 +10,14 @@ export async function GET(context) {
         title: t('siteMetadata.title'),
         description: t('siteMetadata.description'),
         site: context.site,
-        items: posts.map(({slug, data: {title, summary, tags, date}}) => ({
-            title,
-            categories: tags.map(({slug}) => slug), // TODO: add tags name in the future
-            pubDate: date,
-            description: summary,
-            link: `/blog/${slug}/`,
-        })),
+        items: posts.map(({slug, data: {title, summary, tags, date}}) => {
+            return {
+                title,
+                categories: [],
+                pubDate: date,
+                description: summary,
+                link: `/blog/${slug}/`,
+            }
+        }),
     });
 }

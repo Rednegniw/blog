@@ -9,6 +9,7 @@ export default function Link(props: { href: string, class: string, children: str
       </a>
     )
   }
+  
   return (
     <a href={props.href} class={props.class} target="_blank" rel="noopener noreferrer">
       {props.children}

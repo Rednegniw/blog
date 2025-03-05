@@ -1,7 +1,7 @@
 ---
 import "@/styles/global.css";
 import { SITE_METADATA } from "@/consts";
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter, ViewTransitions } from "astro:transitions";
 import "@fontsource/onest";
 import { SEO } from "astro-seo";
 import { getEntry, type CollectionEntry } from "astro:content";
@@ -136,6 +136,9 @@ const isProduction = import.meta.env.PROD;
       }),
     }}
   />
-  {isProduction && <Analytics />}
-  <ViewTransitions />
+  <ClientRouter />
+  {isProduction && <script 
+    defer 
+    src="https://assets.onedollarstats.com/stonks.js"> 
+  </script>}
 </head>

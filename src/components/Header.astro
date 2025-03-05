@@ -1,7 +1,6 @@
 ---
-import { SITE_METADATA, NAVIGATION } from "@/consts";
+import { NAVIGATION } from "@/consts";
 import HeaderLink from "./HeaderLink.astro";
-import Logo from "./Logo.astro";
 import MobileNav from "@/solid/MobileNav.tsx";
 import ThemeSwitcher from "@/solid/ThemeSwitcher.tsx";
 import { useTranslations } from "@/i18n";
@@ -9,11 +8,9 @@ import { useTranslations } from "@/i18n";
 const t = useTranslations();
 ---
 
-<header class="flex items-center justify-between py-10">
-  <div class="mr-3 md:w-40 w-20">
-    <a href="/" aria-label={t("siteMetadata.headerTitle")}>
-      <Logo class="w-full" />
-    </a>
+<header class="flex items-center justify-between py-4">
+  <div class="mr-3 w-20 md:w-auto">
+    <h2 class="text-2xl font-bold">Antonín Wingender</h2>
   </div>
   <div class="flex items-center leading-5 space-x-4 sm:space-x-6">
     {
@@ -28,7 +25,7 @@ const t = useTranslations();
     }
     <div class="flex gap-4">
       <!--<SearchButton />-->
-      <ThemeSwitcher client:only="solid-js" />
+      <ThemeSwitcher client:only />
       <MobileNav client:only="solid-js" />
     </div>
   </div>

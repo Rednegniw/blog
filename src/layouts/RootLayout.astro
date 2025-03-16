@@ -13,13 +13,7 @@ type Props = {
   description: string;
   titleTemplate?: string;
   robots?: string;
-  article?: {
-    publishedTime: Date;
-    modifiedTime?: Date;
-    authors: string[];
-    authorTwitter?: string;
-    cover: CollectionEntry<"blog">["data"]["cover"];
-  };
+  article?: CollectionEntry<"blog">;
 };
 ---
 

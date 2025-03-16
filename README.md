@@ -7,7 +7,10 @@ On this blog, I want to write about my projects or some interesting things I've 
 If you want to get in touch, you can email me on [email](mailto:me@awingender.com).
 
 Current to-do list:
-[ ] Clean up the unnecessary pages and articles
-[ ] Add a welcome article post
-[ ] Add a project of mine
-[ ] Add an actual article about one of my projects
+- [x] Clean up the unnecessary pages and articles
+- [x] Add a welcome article post
+- [x] Add a project of mine
+- [ ] Add a tutorial
+- [ ] Enable comments
+	- [ ] Add article about it?
+- [ ] Add PostHog for analytics

@@ -1,11 +1,9 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
-
-// import ListLayout from "@/layouts/ListLayout.astro";
+import { getCollection, render, type CollectionEntry } from "astro:content";
 import { ITEMS_PER_PAGE } from "@/consts";
 import { excludeDrafts, sortBlogPosts } from "@/functions";
 import ListWithTagsLayout from "@/layouts/ListWithTagsLayout.astro";
-import type { Page } from "astro";
+import type { GetStaticPaths, Page } from "astro";
 import { useTranslations } from "@/i18n";
 
 const t = useTranslations();
@@ -15,24 +13,23 @@ interface Props {
   entry: CollectionEntry<"tags">;
 }
 
-export async function getStaticPaths({ paginate }) {
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const tags = await getCollection("tags");
   const posts = await getCollection("blog", excludeDrafts).then(sortBlogPosts);
 
   return tags.flatMap((entry) => {
     const tagPosts = posts.filter((post) =>
-      post.data.tags.some(({ slug }) => slug === entry.slug)
+      post.data.tags.some(({ id }) => id === entry.id)
     );
     return paginate(tagPosts, {
       pageSize: ITEMS_PER_PAGE,
-      params: { slug: entry.slug },
+      params: { slug: entry.id },
       props: { entry },
     });
   });
 }
 
 const { page, entry } = Astro.props;
-const { Content } = await entry.render();
 
 let robots;
 let titleTemplate = "";
@@ -41,6 +38,7 @@ if (page.currentPage > 1) {
   robots = "noindex, follow";
   titleTemplate = t("seo.pagination.page", { page: `${page.currentPage}` }); // `%s - Page ${page.currentPage}`;
 }
+const { Content } = await render(entry);
 ---
 
 <ListWithTagsLayout

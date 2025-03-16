@@ -1,0 +1,11 @@
+---
+import PackageInstallerReact from './react/PackageInstaller';
+
+interface Props {
+  packages: string;
+}
+
+const { packages } = Astro.props;
+---
+
+<PackageInstallerReact packages={packages} client:load server:defer /> 

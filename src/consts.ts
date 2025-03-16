@@ -111,7 +111,7 @@ export const POST_METADATA = {
   defaultLayout: "column", // Default layout for blog posts, options: simple and column
   showFullWidthCover: false, // Show full width cover image in blog post
   showCover: true, // Show cover image in blog post
-  showTags: true, // Show tags in blog post, TODO: Add support for hiding tags
+  showTags: true, // Show tags in blog post
   showDate: true, // Show date in blog post, TODO: Add support for hiding date
   showSummary: true, // Show summary in blog post
   showAuthors: true, // Show authors in blog post, TODO: Add support for hiding authors

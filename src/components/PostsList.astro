@@ -1,0 +1,17 @@
+---
+import type { CollectionEntry } from "astro:content";
+import PostListItem from "./PostListItem.astro";
+
+interface Props {
+  posts: CollectionEntry<"blog">[];
+  showDivider?: boolean;
+}
+
+const { posts, showDivider = true } = Astro.props;
+---
+
+<ul class:list={[showDivider && "divide-y divide-gray-200 dark:divide-gray-700"]}>
+  {!posts.length && <slot name="empty" />}
+  
+  {posts.map((post) => <PostListItem post={post} />)}
+</ul> 

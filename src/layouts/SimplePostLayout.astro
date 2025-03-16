@@ -11,6 +11,7 @@ import DetailsSummary from "../components/DetailsSummary.astro";
 import SocialShareButtons from "../components/social-icons/SocialShareButtons.astro";
 import { POST_METADATA } from "@/consts";
 import { useTranslations } from "@/i18n";
+import { render } from "astro:content";
 
 const t = useTranslations();
 
@@ -35,7 +36,7 @@ const articleOgDetails = {
   cover: post.data.cover,
 };
 
-const { Content, headings } = await post.render();
+const { Content, headings } = await render(post);
 ---
 
 <RootLayout

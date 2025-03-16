@@ -13,6 +13,7 @@ import DetailsSummary from "../components/DetailsSummary.astro";
 import SocialShareButtons from "../components/social-icons/SocialShareButtons.astro";
 import { POST_METADATA } from "@/consts";
 import { useTranslations } from "@/i18n";
+import { render } from "astro:content";
 
 const t = useTranslations();
 
@@ -23,6 +24,7 @@ interface Props {
 }
 
 const { post, next, prev } = Astro.props as Props;
+
 const authors: CollectionEntry<"authors">[] = await getEntries(
   post.data.authors
 );
@@ -38,7 +40,7 @@ const articleOgDetails = {
   cover: post.data.cover,
 };
 
-const { Content, headings } = await post.render();
+const { Content, headings } = await render(post);
 ---
 
 <RootLayout
@@ -90,9 +92,8 @@ const { Content, headings } = await post.render();
               <ul
                 class="flex flex-wrap justify-center items-center gap-4 sm:space-x-12 xl:block xl:space-x-0 xl:space-y-8"
               >
-                <!--TODO: Add support for multiple authors-->
                 {
-                  authors.map(({ data, slug }) => (
+                  authors.map(({ data }) => (
                     <>
                       <li class="flex items-center space-x-2">
                         {data.avatar && (
@@ -214,8 +215,8 @@ const { Content, headings } = await post.render();
                       {t('layouts.postLayout.tags')}
                     </h2>
                     <div class="flex flex-wrap">
-                      {tags.map((tag) => (
-                        <Tag tag={tag} />
+                      {tags.map(({ id }) => (
+                        <Tag tagId={id} />
                       ))}
                     </div>
                   </div>
@@ -230,7 +231,7 @@ const { Content, headings } = await post.render();
                           {t('layouts.postLayout.previousPost')}
                         </h2>
                         <div class="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
-                          <Link href={`/blog/${prev.slug}`}>
+                          <Link href={`/blog/${prev.id}`}>
                             {prev.data.title}
                           </Link>
                         </div>
@@ -242,7 +243,7 @@ const { Content, headings } = await post.render();
                           {t('layouts.postLayout.nextPost')}
                         </h2>
                         <div class="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
-                          <Link href={`/blog/${next.slug}`}>
+                          <Link href={`/blog/${next.id}`}>
                             {next.data.title}
                           </Link>
                         </div>

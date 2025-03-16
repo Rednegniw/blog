@@ -1,0 +1,6 @@
+This is a blog for Antonín Wingender about his projects and experiences.
+
+This blog is built with Astro, TailwindCSS and TypeScript. It is hosted on Vercel.
+
+It uses mdx files for the blog posts and tags, and authors. It features Astro, SolidJS and React components.
+

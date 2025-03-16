@@ -1,0 +1,17 @@
+[
+	{
+		"id": "general",
+		"name": "General",
+		"description": "General posts about the blog and its purpose."
+	},
+	{
+		"id": "svelte",
+		"name": "Svelte",
+		"description": "Posts about Svelte and its ecosystem."
+	},
+	{
+		"id": "tutorial",
+		"name": "Tutorial",
+		"description": "Tutorials and guides about various topics."
+	}	
+]

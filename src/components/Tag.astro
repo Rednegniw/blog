@@ -1,44 +1,33 @@
 ---
+import { getEntries } from "astro:content";
 import Link from "./Link.astro";
 import { type CollectionEntry, getEntry } from "astro:content";
+import { cn } from "@/functions";
 
 interface Props {
-  tag?: CollectionEntry<"tags">;
-  slug?: string;
+  tagId?: string;
 }
 
-// Initialize with a default tag data structure
-let tagData = {
-  slug: "default",
-  name: "Default"
-};
+const { tagId } = Astro.props;
 
-// If tag is provided directly, use it
-if (Astro.props.tag) {
-  const { slug, data } = Astro.props.tag;
-  tagData = { slug, name: data.name };
+if (!tagId) {
+  throw new Error("tagId is required");
 }
 
-// If slug is provided, try to fetch the tag
-else if (Astro.props.slug) {
-  try {
-    const tagEntry = await getEntry("tags", Astro.props.slug);
-    if (tagEntry) {
-      tagData = { 
-        slug: tagEntry.slug, 
-        name: tagEntry.data.name 
-      };
-    }
-  } catch (error) {
-    console.error(`Error loading tag with slug "${Astro.props.slug}":`, error);
-    // Keep using the default tag data
-  }
+const tag = await getEntry("tags", tagId);
+
+if (!tag) {
+  throw new Error(`Tag with id ${tagId} not found`);
 }
 ---
 
 <Link
-  href={`/tags/${tagData.slug}`}
-  class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+  href={`/tags/${tag.id}`}
+  class={cn(
+    "bg-gray-100 text-gray-800 border border-gray-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-xl",
+    "hover:bg-gray-200 hover:text-gray-900 hover:border-gray-400",
+    "dark:bg-gray-700 dark:text-gray-300"
+  )}
 >
-  {tagData.name}
+  {tag.data.name}
 </Link>

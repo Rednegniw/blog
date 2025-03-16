@@ -1,19 +1,44 @@
 ---
-import {getCollection} from 'astro:content';
-import {excludeDrafts} from "@/functions";
+// Import necessary modules from Astro and local files
+import { getCollection } from "astro:content";
+import { excludeDrafts } from "@/functions";
 import PostLayout from "@/layouts/PostLayout.astro";
 import SimpleLayout from "@/layouts/SimplePostLayout.astro";
+import type { GetStaticPaths } from "astro";
 
-export async function getStaticPaths() {
-  const posts = await getCollection('blog', excludeDrafts);
+/**
+ * Generate static paths for all blog posts
+ * This function is called at build time to create pages for each blog post
+ */
+export const getStaticPaths: GetStaticPaths = async () => {
+  // Get all blog posts, excluding drafts
+  const posts = await getCollection("blog", excludeDrafts);
+
+  // Safety check in case no posts are found
   if (!posts) return [];
+
+  // Map each post to its corresponding URL path and props
   return posts.map((post, index) => ({
-    params: {slug: post.slug},
-    props: {post, next: posts[index + 1], prev: posts[index - 1]},
+    params: { slug: post.id },
+    props: {
+      post,
+      next: posts[index + 1],
+      prev: posts[index - 1],
+    },
   }));
 }
 
+// Determine which layout to use based on post metadata
 const postLayout = Astro.props.post.data.postLayout;
 ---
 
-{postLayout === 'simple' ?<SimpleLayout {...Astro.props}/> :<PostLayout {...Astro.props}/>}
+{
+  /* Conditionally render either SimpleLayout or PostLayout based on post configuration */
+}
+{
+  postLayout === "simple" ? (
+    <SimpleLayout {...Astro.props} />
+  ) : (
+    <PostLayout {...Astro.props} />
+  )
+}

@@ -7,7 +7,6 @@ import { SEO } from "astro-seo";
 import { getEntry, type CollectionEntry } from "astro:content";
 import Favicon from "@/assets/favicon.svg";
 import { getImage } from "astro:assets";
-import Analytics from "./Analytics.astro";
 
 interface Props {
   title: string;
@@ -15,13 +14,7 @@ interface Props {
   ogImage?: string;
   robots?: string; // default to SITE_METADATA.robots
   titleTemplate?: string;
-  article?: {
-    publishedTime: Date;
-    modifiedTime?: Date;
-    authors: string[];
-    authorTwitter?: string;
-    cover: CollectionEntry<"blog">["data"]["cover"];
-  };
+  article?: CollectionEntry<"blog">['data'];
 }
 
 const {

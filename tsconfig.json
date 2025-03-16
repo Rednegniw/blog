@@ -7,7 +7,7 @@
       "@/*": ["src/*"],
       "@/solid/*": ["src/components/solidjs/*"],
     },
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js"
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
   }
 }

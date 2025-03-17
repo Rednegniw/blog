@@ -1,6 +1,13 @@
 import { useState } from "react";
-import { Copy, Check } from "lucide-react";
+import { Copy, Check, Bot } from "lucide-react";
 import { cn } from "@/functions";
+import { Button } from "../ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 interface CopyForAIProps {
   content: string;
@@ -13,7 +20,6 @@ export const CopyForAI = ({ content }: CopyForAIProps) => {
     try {
       // Strip markdown and format content for AI
       const formattedContent = content
-        .replace(/```[\s\S]*?```/g, "") // Remove code blocks
         .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // Convert links to plain text
         .replace(/#+\s(.*)/g, "$1") // Remove heading markers
         .replace(/\*\*(.*?)\*\*/g, "$1") // Remove bold markers
@@ -30,26 +36,21 @@ export const CopyForAI = ({ content }: CopyForAIProps) => {
   };
 
   return (
-    <button
-      onClick={copyToClipboard}
-      aria-label="Copy content for AI"
-      className={cn(
-        "flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors",
-        "bg-primary-500 text-white hover:bg-primary-600",
-        "dark:bg-primary-600 dark:hover:bg-primary-700"
-      )}
-    >
-      {copied ? (
-        <>
-          <Check size={16} />
-          <span>Copied!</span>
-        </>
-      ) : (
-        <>
-          <Copy size={16} />
-          <span>Copy for AI</span>
-        </>
-      )}
-    </button>
+    <TooltipProvider>
+      <Tooltip >
+        <TooltipTrigger>
+          <Button
+            onClick={copyToClipboard}
+            aria-label="Copy content for AI"
+            size="icon"
+          >
+            {copied ? <Check size={16} /> : <Bot size={16} />}
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent className="max-w-[300px] p-4 text-sm">
+          Copy unformatted article text to use in Cursor and similar AI tools
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
-}; 
+};

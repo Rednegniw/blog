@@ -31,7 +31,7 @@ const tags: CollectionEntry<"tags">[] = await getEntries(post.data.tags);
 // const related: CollectionEntry<'blog'>[] = await getEntries(post.data.related);
 
 // Check if post has tutorial tag
-const hasTutorialTag = tags.some(tag => tag.id === "tutorial");
+const hasTutorialTag = tags.some((tag) => tag.id === "tutorial");
 
 // Get content for rendering
 const { Content, headings } = await render(post);
@@ -51,7 +51,7 @@ const articleOgDetails = {
 <RootLayout
   title={post.data.title}
   description={post.data.summary}
-  article={post.data}
+  article={articleOgDetails}
 >
   <SectionContainer>
     <ScrollTopAndComments client:only="solid-js" />
@@ -67,12 +67,6 @@ const articleOgDetails = {
             </dd>
           </dl>
           <PageTitle>{post.data.title}</PageTitle>
-          
-          {hasTutorialTag && (
-            <div class="mt-4 flex justify-center">
-              <CopyForAI content={rawContent} client:load />
-            </div>
-          )}
         </div>
         {
           post.data.cover && POST_METADATA.showCover && (
@@ -104,7 +98,7 @@ const articleOgDetails = {
         {
           headings.length > 0 && POST_METADATA.showTableOfContents && (
             <DetailsSummary
-              class="border border-gray-100 dark:border-gray-600 rounded mt-4 max-w-none"
+              class="border border-gray-200 dark:border-gray-600 rounded-lg mt-4 px-2 max-w-none"
               title={t("layouts.postLayout.tableOfContents")}
             >
               <ul class="space-y-2 list-none mt-0 ps-0">
@@ -127,6 +121,13 @@ const articleOgDetails = {
             </DetailsSummary>
           )
         }
+        {
+          hasTutorialTag && (
+            <div class="fixed bottom-4 left-4">
+              <CopyForAI content={rawContent} client:load />
+            </div>
+          )
+        }
         <div
           class="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0"
         >
@@ -135,9 +136,7 @@ const articleOgDetails = {
             <Content />
           </div>
         </div>
-        {process.env.NODE_ENV !== "development" && (
-          <PostComments />
-        )}
+        {process.env.NODE_ENV !== "development" && <PostComments />}
         <footer>
           <div
             class="flex flex-col text-sm font-medium sm:flex-row sm:justify-between sm:text-base"

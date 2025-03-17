@@ -5,7 +5,7 @@ import { ClientRouter, ViewTransitions } from "astro:transitions";
 import "@fontsource/onest";
 import { SEO } from "astro-seo";
 import { getEntry, type CollectionEntry } from "astro:content";
-import Favicon from "@/assets/favicon.svg";
+import Favicon from "@/assets/favicon.ico";
 import { getImage } from "astro:assets";
 
 interface Props {
@@ -82,7 +82,7 @@ const isProduction = import.meta.env.PROD;
         { name: "viewport", content: "width=device-width,initial-scale=1" },
       ],
       link: [
-        { rel: "icon", type: `image/svg`, href: favicon.src },
+        { rel: "icon", type: `image/png`, href: favicon.src },
         { rel: "apple-touch-icon", sizes: "76x76", href: appleTouchIcon.src },
         { rel: "icon", type: "image/svg", sizes: "32x32", href: favicon32.src },
         { rel: "icon", type: "image/svg", sizes: "16x16", href: favicon16.src },

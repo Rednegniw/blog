@@ -15,7 +15,9 @@ export default defineConfig({
   prefetch: true,
   site: SITE_METADATA.siteUrl,
   integrations: [
-    expressiveCode(),
+    expressiveCode({
+      themes: ["dracula"]
+    }),
     mdx(),
     sitemap(),
     solidJs({

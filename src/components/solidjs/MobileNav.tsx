@@ -19,7 +19,7 @@ export default function MobileNav() {
   return (
     <>
     <button aria-label={t('components.mobileNav.toggleMenu')} class="sm:hidden" ref={buttonRef} onClick={toggleMenu}>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-8 w-8 text-gray-900 dark:text-gray-100">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-8 text-gray-900 dark:text-gray-100">
         <path
           fill-rule="evenodd"
           d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
@@ -30,7 +30,7 @@ export default function MobileNav() {
       <div ref={menuRef}
         class="translate-x-full fixed left-0 top-0 h-full w-full transform opacity-95 dark:opacity-[0.98] bg-white duration-300 ease-in-out dark:bg-gray-950 z-20">
         <div class="flex justify-end">
-          <button class="mr-8 mt-11 h-8 w-8" aria-label={t('components.mobileNav.toggleMenu')} onClick={toggleMenu}>
+          <button class="mr-8 mt-11 size-8" aria-label={t('components.mobileNav.toggleMenu')} onClick={toggleMenu}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
               class="text-gray-900 dark:text-gray-100">
               <path fill-rule="evenodd"
@@ -43,7 +43,7 @@ export default function MobileNav() {
           <For each={NAVIGATION}>
             {({ href, title }) => (
               <div class="px-12 py-4">
-                <Link href={href} class="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-100">
+                <Link href={href} class="text-2xl font-semibold tracking-widest text-gray-900 dark:text-gray-100">
                   {t(title)}
                 </Link>
               </div>

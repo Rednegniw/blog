@@ -1,0 +1,8 @@
+---
+import { CodeBlock as ReactCodeBlock } from "./react/CodeBlock";
+const { code, language, filename } = Astro.props;
+---
+
+<ReactCodeBlock language={language} filename={filename} client:only="react">
+  {code}
+</ReactCodeBlock>

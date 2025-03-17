@@ -6,6 +6,7 @@ import RootLayout from "./RootLayout.astro";
 import PostsList from "@/components/PostsList.astro";
 import type { Page } from "astro";
 import { useTranslations } from "@/i18n";
+import { cn } from "@/functions";
 
 const t = useTranslations();
 
@@ -25,7 +26,12 @@ const hasDefaultSlot = Astro.slots.has("default");
   <div>
     <div class="py-4">
       <h1
-        class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14"
+        class={cn(
+          "text-3xl font-bold leading-9 tracking-tight text-gray-900",
+          "dark:text-gray-100",
+          "sm:text-3xl sm:leading-10",
+          "md:text-4xl md:leading-14"
+        )}
       >
         {title}
       </h1>
@@ -37,10 +43,10 @@ const hasDefaultSlot = Astro.slots.has("default");
         )
       }
     </div>
-    <div class="flex sm:space-x-24">
+    <div class="flex px-2 sm:space-x-24">
       <div>
         <PostsList posts={page.data} showDivider={false}>
-          <p slot="empty">{t('pages.home.noPosts')}</p>
+          <p slot="empty">{t("pages.home.noPosts")}</p>
         </PostsList>
         {(page.url.next || page.url.prev) && <Pagination page={page} />}
       </div>

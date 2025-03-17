@@ -13,6 +13,7 @@ import { POST_METADATA } from "@/consts";
 import { useTranslations } from "@/i18n";
 import { render } from "astro:content";
 import PostComments from "@/components/PostComments.astro";
+import { CopyForAI } from "@/components/react/CopyForAI";
 
 const t = useTranslations();
 
@@ -29,6 +30,15 @@ const authors: CollectionEntry<"authors">[] = await getEntries(
 const tags: CollectionEntry<"tags">[] = await getEntries(post.data.tags);
 // const related: CollectionEntry<'blog'>[] = await getEntries(post.data.related);
 
+// Check if post has tutorial tag
+const hasTutorialTag = tags.some(tag => tag.id === "tutorial");
+
+// Get content for rendering
+const { Content, headings } = await render(post);
+
+// Get raw content for AI copy
+const rawContent = post.body || "";
+
 const articleOgDetails = {
   publishedTime: post.data.date,
   modifiedTime: post.data.lastmod,
@@ -36,18 +46,16 @@ const articleOgDetails = {
   authorTwitter: authors.map(({ data }) => data.twitter).at(0),
   cover: post.data.cover,
 };
-
-const { Content, headings } = await render(post);
 ---
 
 <RootLayout
   title={post.data.title}
   description={post.data.summary}
-  article={articleOgDetails}
+  article={post.data}
 >
   <SectionContainer>
     <ScrollTopAndComments client:only="solid-js" />
-    <article>
+    <article class="md:mt-10">
       <header>
         <div class="space-y-1 pb-10 text-center dark:border-gray-700">
           <dl>
@@ -59,6 +67,12 @@ const { Content, headings } = await render(post);
             </dd>
           </dl>
           <PageTitle>{post.data.title}</PageTitle>
+          
+          {hasTutorialTag && (
+            <div class="mt-4 flex justify-center">
+              <CopyForAI content={rawContent} client:load />
+            </div>
+          )}
         </div>
         {
           post.data.cover && POST_METADATA.showCover && (

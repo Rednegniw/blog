@@ -1,0 +1,9 @@
+import { CopyForAI } from "./react/CopyForAI";
+
+interface Props {
+  content: string;
+}
+
+const { content } = Astro.props;
+
+<CopyForAI content={content} client:load />

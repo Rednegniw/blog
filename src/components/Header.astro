@@ -4,13 +4,14 @@ import HeaderLink from "./HeaderLink.astro";
 import MobileNav from "@/solid/MobileNav.tsx";
 import ThemeSwitcher from "@/solid/ThemeSwitcher.tsx";
 import { useTranslations } from "@/i18n";
+import Link from "./Link.astro";
 
 const t = useTranslations();
 ---
 
 <header class="flex items-center justify-between py-4">
-  <div class="mr-3 w-20 md:w-auto">
-    <h2 class="text-2xl font-bold">Antonín Wingender</h2>
+  <div class="mr-3 px-2 md:w-auto">
+    <Link href="/"><h2 class="text-2xl font-bold">Antonín Wingender</h2></Link>
   </div>
   <div class="flex items-center leading-5 space-x-4 sm:space-x-6">
     {
@@ -24,7 +25,7 @@ const t = useTranslations();
       ))
     }
     <div class="flex gap-4">
-      <!--<SearchButton />-->
+      <!-- <SearchButton /> -->
       <MobileNav client:only="solid-js" />
     </div>
   </div>

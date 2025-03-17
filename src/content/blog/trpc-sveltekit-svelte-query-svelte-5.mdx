@@ -4,7 +4,7 @@ date: "2025-03-14"
 draft: false
 postLayout: simple
 cover: "@/assets/images/trpc-sveltekit-svelte-query-svelte-5.png"
-summary: "A guide to setting up tRPC with Svelte Query in a Svelte 5 project."
+summary: "Do you want to integrate tRPC in your Svelte 5 project but feel like it's too much hassle? I've got you covered! This is a step-by-step guide to integrate tRPC with Svelte Query in a Svelte 5 project."
 tags:
   - svelte
   - tutorial
@@ -13,14 +13,16 @@ tags:
 import Highlight from "@/components/Highlight.astro";
 import PackageInstaller from "@/components/PackageInstaller.astro";
 import Link from "@/components/Link.astro";
+import CodeBlock from "@/components/CodeBlock.astro";
+import { FurtherExplanation } from "@/components/react/FurtherExplanation";
 
 ## What is my goal with this article?
 
-tRPC is a tool for building type-safe APIs with TypeScript. I like it, because it provides a really pleasant framework for you to build an API in a SvelteKit application. 
+If you found this article, you probably already know that tRPC is a tool for building type-safe APIs with TypeScript. I like it, because it provides a really pleasant framework for you to build an API in a SvelteKit application. 
 
 I have first used it in a large Next.js application, and fell in love with the ease with which it allows you to create new API endpoints, authenticated and with validation built in, and fully typesafe! For example, <Link href="https://create.t3.gg/">Create T3 App</Link> has it integrated out of the box, with <Link href="https://tanstack.com/query/latest/docs/framework/react/overview">Tanstack Query</Link> included. It is ready to use on client and on server. 
 
-For its SvelteKit equivalent, <Link href="https://github.com/icflorescu/trpc-sveltekit">tRPC-SvelteKit</Link>, the implementation is not that easy. The integration with <Link href="https://tanstack.com/query/latest/docs/framework/svelte/overview">Svelte Query</Link> is more complex. Moreover, it is not updated for **Svelte 5** syntax.
+For its SvelteKit equivalent, <Link href="https://github.com/icflorescu/trpc-sveltekit">tRPC-SvelteKit</Link>, the setup is not that easy. The integration with <Link href="https://tanstack.com/query/latest/docs/framework/svelte/overview">Svelte Query</Link> is even more complex, and not described in the documentation. Moreover, it is not updated for **Svelte 5** syntax.
 
 In this article, I am aiming to provide a comprehensive, step-by-step guide to integrate tRPC with your new Svelte 5 project and Svelte Query.
 
@@ -38,13 +40,18 @@ Let's go over the packages:
 - <Link href="https://zod.dev/">zod</Link>: The library for building a Zod schema, which we will use for validation of inputs (and outputs) of our API endpoints.
 - <Link href="https://github.com/blitz-js/superjson">superjson</Link>: The library for serializing and deserializing JSON data. This enables sending more complex data types (like Dates, Maps, Sets, etc.) over the network.
 
+<FurtherExplanation title="How does tRPC work?" client:load>
+	tRPC works by using the RPC protocol to communicate between the server and the client. The server defines the API endpoints, and the client can call them. Remote Procedure Call (RPC) is a communication protocol used in distributed computing, allowing a program to request a service from another program located on a different machine on a network. Essentially, RPC lets software call functions or procedures remotely, just as if they were local calls.
+</FurtherExplanation>
+
 ## 2. Create the initial file structure
 
-If you are using Svelte 5, you should already have the `src/lib` directory. We will use it to store the tRPC files.
+If you are using Svelte 5, you should already have the `src/lib` directory. We will use it to store the tRPC file structure. You can use any other directory, it will just change the import paths.
 
-First start with creating the `src/lib/trpc/t.ts` file:
+First start with creating the `src/lib/trpc/t.ts` file. This file will let us easily import the tRPC instance anywhere in our project.
 
-```ts title="src/lib/trpc/t.ts"
+
+```ts title="src/lib/trpc/t.ts" 
 import { initTRPC } from "@trpc/server";
 import type { Context } from "./context";
 import { SuperJSON } from "superjson";
@@ -57,9 +64,7 @@ export const t = initTRPC.context<Context>().create({ transformer: SuperJSON })
 
 ```
 
-This will create a tRPC instance that will be used to create the API endpoints.
-
-Next, create the `src/lib/trpc/context.ts` file:
+Next, create the `src/lib/trpc/context.ts` file. This file will create a context for the tRPC server request and response handlers.
 
 ```ts title="src/lib/trpc/context.ts"
 import type { RequestEvent } from '@sveltejs/kit';
@@ -79,7 +84,7 @@ export type Context = Awaited<ReturnType<typeof createContext>>;
 
 This will create a context for the tRPC server that will be used to create the API endpoints.
 
-Next, I recommend creating a `src/lib/trpc/router` directory, and inside it create the `index.ts` file:
+Next, I recommend creating a `src/lib/trpc/router` directory, and inside it create the `index.ts` file. You could just create a `src/lib/trpc/router.ts` file, but I like to organize the sub-routers in a separate subdirectory.
 
 ```ts title="src/lib/trpc/router/index.ts"
 import { usersRouter } from './users';
@@ -103,7 +108,7 @@ export const createCaller = t.createCallerFactory(router);
 export type Router = typeof router;
 ```
 
-In this file, you can add all the sub-routers you need. For example, we can create a `posts` sub-router:
+In this file, you can add all the sub-routers you need. For example, we can create a `posts` sub-router. And you should! As your application grows, you will probably need to split the API into many multiple routers. I like to do it based on the schema model, such as `users`, `posts`, `comments`, etc.
 
 ```ts title="src/lib/trpc/router/posts.ts"
 import { t } from "../t";
@@ -185,9 +190,9 @@ Now, you can use the `api` function in your Svelte components to make API calls:
 
 ## 4. Loading server-side page data with tRPC
 
-For server-side data loading, you can use the `load` function in your SvelteKit page. You have two options here:
+For server-side data loading, you can use the `load` function in your SvelteKit page, via an accompanying `src/routes/+page.server.ts` file. For more information on how to use it, check out the <Link href="https://svelte.dev/docs/kit/load">SvelteKit documentation</Link>. You have two options here:
 
-1. Create a separate server side api function, which will call the router function directly.
+1. Create a separate server side api handler, which will call the router function directly, instead of using RPC protocol. Personally, this is my preferred way, because it is more flexible and easier to debug.
 2. Use Svelte Query's `createServerQuery` function to preload the data for the later used client side query.
 
 I will show you both ways, and you can decide which one to use.

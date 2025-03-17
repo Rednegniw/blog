@@ -1,5 +1,5 @@
 import type {CollectionEntry} from "astro:content";
-import { twMerge } from "tailwind-merge";
+import { twMerge, type ClassNameValue } from "tailwind-merge";
 
 /**
  * Filter blog posts by published date and order them.
@@ -34,4 +34,4 @@ export const excludeDrafts = ({data}: CollectionEntry<'blog'>): boolean => {
  * @param classes - Tailwind classes
  * @returns Merged classes
  */
-export const cn = (...classes: string[]) => twMerge(classes);
+export const cn = (...classes: ClassNameValue[]) => twMerge(classes);

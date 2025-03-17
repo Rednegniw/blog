@@ -14,6 +14,7 @@ import SocialShareButtons from "../components/social-icons/SocialShareButtons.as
 import { POST_METADATA } from "@/consts";
 import { useTranslations } from "@/i18n";
 import { render } from "astro:content";
+import PostComments from "@/components/PostComments.astro";
 
 const t = useTranslations();
 
@@ -188,21 +189,6 @@ const { Content, headings } = await render(post);
                 <SocialShareButtons title={post.data.title} description={post.data.summary} />
               ) : null
             }
-            <!--    <div class="pb-6 pt-6 text-sm text-gray-700 dark:text-gray-300">-->
-            <!--        <Link href={discussUrl(path)} rel="nofollow">-->
-            <!--            Discuss on Twitter-->
-            <!--        </Link>-->
-            <!--        {` • `}-->
-            <!--        <Link href={editUrl(filePath)}>View on GitHub</Link>-->
-            <!--    </div>-->
-            <!--    {SITE_METADATA.comments && (-->
-            <!--            <div-->
-            <!--                    class="pb-6 pt-6 text-center text-gray-700 dark:text-gray-300"-->
-            <!--                    id="comment"-->
-            <!--            >-->
-            <!--                <Comments slug={slug}/>-->
-            <!--            </div>-->
-            <!--    )}-->
           </div>
           <footer>
             <div
@@ -261,7 +247,7 @@ const { Content, headings } = await render(post);
                     <ul class="flex flex-wrap gap-2 xl:space-x-0 xl:space-y-0">
                       {related.map((post) => (
                         <li class="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
-                          <Link href={`/blog/${post.slug}`}>
+                          <Link href={`/blog/${post.id}`}>
                             {post.data.title}
                           </Link>
                         </li>

@@ -12,6 +12,7 @@ import SocialShareButtons from "../components/social-icons/SocialShareButtons.as
 import { POST_METADATA } from "@/consts";
 import { useTranslations } from "@/i18n";
 import { render } from "astro:content";
+import PostComments from "@/components/PostComments.astro";
 
 const t = useTranslations();
 
@@ -120,11 +121,9 @@ const { Content, headings } = await render(post);
             <Content />
           </div>
         </div>
-        <!--{siteMetadata.comments && (-->
-        <!--        <div class="pb-6 pt-6 text-center text-gray-700 dark:text-gray-300" id="comment">-->
-        <!--            <Comments slug={slug} />-->
-        <!--        </div>-->
-        <!--)}-->
+        {process.env.NODE_ENV !== "development" && (
+          <PostComments />
+        )}
         <footer>
           <div
             class="flex flex-col text-sm font-medium sm:flex-row sm:justify-between sm:text-base"

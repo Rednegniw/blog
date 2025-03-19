@@ -88,6 +88,7 @@ Now that we have a database, we can add the database provider to the `auth.ts` f
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { Pool } from "pg";
 import { BETTER_AUTH_SECRET, BETTER_AUTH_URL } from "$env/static/private";
+
 export const auth = betterAuth({
   secret: BETTER_AUTH_SECRET,
   url: BETTER_AUTH_URL,

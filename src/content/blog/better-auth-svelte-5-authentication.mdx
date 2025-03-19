@@ -1,0 +1,358 @@
+---
+title: "Adding Better Auth to your Svelte 5 project"
+date: "2025-03-18"
+draft: false
+postLayout: simple
+summary: "Want to add a solid, easy-to-use authentication system to your Svelte 5 project? Better Auth is a great choice! This is a step-by-step guide to integrate Better Auth with your Svelte 5 project."
+cover: "@/assets/images/better-auth-svelte-5/cover-image.png"
+tags:
+  - svelte
+  - tutorial
+---
+
+import { Image } from "astro:assets";
+import PackageInstaller from "@/components/PackageInstaller.astro";
+import generateCommandOutput from "../../assets/images/better-auth-svelte-5/generate-command.png";
+import migrateCommandOutput from "../../assets/images/better-auth-svelte-5/migrate-command.png";
+
+## Introduction
+
+Authentication in Svelte 5 is in a weird state right now. Up until recently, the recommended way to do authentication was to use [Lucia](https://github.com/lucia-auth/lucia). It is even still included in the official Svelte CLI tool when creating new projects.
+
+Recently however, the creator of Lucia has [publicly announced his intention to deprecate the library](https://github.com/lucia-auth/lucia/discussions/1707), stating that he wants to make it a public resource on implementing your auth from scratch.
+
+While implementing your own auth system is a great learning experience, and also, a bit of a bragging right among web developers, sometimes you just want to get something working as quickly as possible.
+
+This is where [Better Auth](https://www.better-auth.com/docs) comes in. It is a modern, easy-to-use authentication system with a lot of providers. With some setup, it is easy to integrate into your Svelte 5 project.
+
+In this article, I want to give you a step-by-step guide on how to integrate Better Auth into your Svelte 5 project.
+
+I am assuming that you have a Svelte 5 project already set up. If not, please follow the [Official Svelte docs](https://svelte.dev/docs/kit/creating-a-project) to create one. Also, I will be using PostgreSQL for this example, but you can use any other database supported by Better Auth.
+
+## 1. Install the libraries
+
+First, as always, we want to install the necessary library.
+
+<PackageInstaller packages="better-auth" />
+
+<span class="hidden">better-auth</span>
+
+## 2. Set up the environment variables
+
+Open (or create) the `.env` file in the root of your project and add the following variables:
+
+```powershell
+BETTER_AUTH_SECRET=[your-secret-key]
+BETTER_AUTH_URL=[your-better-auth-url]
+```
+
+- `BETTER_AUTH_SECRET`: This secret key is used to sign the JWT token and generate hashes. Treat it as a password - use a random, sufficiently long string of characters for it. If someone gains access to it, they will be able to impersonate your users.
+- `BETTER_AUTH_URL`: This is the URL of your Better Auth instance. Set it to the URL of your Svelte 5 project. On localhost, it is usually `http://localhost:5173`.
+
+## 3. Create the `auth.ts` file
+
+Create a new file in the `src/lib` directory called `auth.ts`.
+
+```ts title="src/lib/auth.ts"
+import { betterAuth } from "better-auth";
+import { BETTER_AUTH_SECRET, BETTER_AUTH_URL } from "$env/static/private";
+
+export const auth = betterAuth({
+  secret: BETTER_AUTH_SECRET,
+  url: BETTER_AUTH_URL,
+});
+```
+
+## 4. Set up the database and the schema
+
+If you don't already have a database, set it up. Better Auth supports various databases,
+such as PostgreSQL, MySQL, and SQLite, or MongoDB.
+
+For this example, I have chosen to use PostgreSQL. If you want to use a different database, please refer to the [Better Auth docs, such as this one for MySQL](https://www.better-auth.com/docs/adapters/mysql).
+
+### 4.1. Create the database
+
+The easiest way to create a local PostgreSQL database is to use Docker.
+
+```powershell
+docker run --name my-postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres
+```
+
+This will create a new container named `my-postgres` with the password `mysecretpassword` and map port `5432` to the host.
+
+### 4.2. Add the database provider to the `auth.ts` file
+
+Now that we have a database, we can add the database provider to the `auth.ts` file. This is important, as the CLI tool will look for the database provider in the `auth.ts` file. Depending on the database you are using, you will need to install different packages. For PostgreSQL, you will need to install `pg`.
+
+```ts title="src/lib/auth.ts"
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { Pool } from "pg";
+import { BETTER_AUTH_SECRET, BETTER_AUTH_URL } from "$env/static/private";
+export const auth = betterAuth({
+  secret: BETTER_AUTH_SECRET,
+  url: BETTER_AUTH_URL,
+
+  /**
+   * For other databases, check the Better Auth docs.
+   */
+  database: new Pool({
+    connectionString:
+      "postgres://postgres:mysecretpassword@localhost:5432/postgres",
+  }),
+});
+```
+
+### 4.3. Set up the necessary auth schema
+
+Now that we have a database, we can set up the schema. Better Auth requires the following tables to be present in the database:
+
+- `user`
+- `session`
+- `account`
+- `verification`
+
+You can see the schema in detail in the [Better Auth docs](https://www.better-auth.com/docs/concepts/database#core-schema).
+
+Fortunately, Better Auth comes with a CLI tool that can create the schema for you.
+
+```powershell
+npx @better-auth/cli@latest generate
+```
+
+You should see the following output:
+
+<Image
+  class="rounded-xl bg-black p-2 py-3"
+  src={generateCommandOutput}
+  alt="Generate command output"
+/>
+
+This will create an SQL schema in the `./better-auth_migrations` directory. You can then apply a migration to actually put the schema into your database:
+
+```powershell
+npx @better-auth/cli@latest migrate
+```
+
+You should see the following output:
+
+<Image
+  class="rounded-xl bg-black p-2 py-3"
+  src={migrateCommandOutput}
+  alt="Migrate command output"
+/>
+
+And voilà! Your database is now set up and ready to use.
+
+## 5. Connect it with SvelteKit
+
+Now, in order for Better Auth to work with SvelteKit server, we need to add a hook to the `hooks.server.ts` file.
+
+```ts title="src/hooks.server.ts"
+import { auth } from "$lib/auth";
+import { svelteKitHandler } from "better-auth/svelte-kit";
+
+export const handle = async ({ event, resolve }) => {
+  return svelteKitHandler(event, resolve, auth);
+};
+```
+
+In order to create an instance to use on the client, we need to create a new file in the `src/lib` directory called `auth-client.ts`.
+
+```ts title="src/lib/auth-client.ts"
+import { createAuthClient } from "better-auth/svelte";
+
+export const authClient = createAuthClient();
+```
+
+## 6. Choose a provider and add it to the `auth.ts` file
+
+Better Auth comes with a lot of providers. Providers are services that allow users to sign in to your application. I'm sure you've seen a "Sign in with Google" button somewhere on the internet. That's a provider. Many modern websites use only providers, but the standard way, username/password, is also supported.
+
+For this example, I will be showing you the Google provider.
+
+For the Google provider, we will need to get two environment variables for Better Auth to work.
+
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+
+You can get these from the [Google Cloud Console](https://console.cloud.google.com/).
+
+In the Google Cloud Console > Credentials > Authorized redirect URIs, make sure to set the redirect URL to http://localhost:3000/api/auth/callback/google for local development. For production, make sure to set the redirect URL as your application domain, e.g. https://example.com/api/auth/callback/google. If you change the base path of the auth routes, you should update the redirect URL accordingly.
+
+Once you have the credentials, add them to the `.env` file:
+
+```powershell title=".env"
+GOOGLE_CLIENT_ID=[your-google-client-id]
+GOOGLE_CLIENT_SECRET=[your-google-client-secret]
+```
+
+Now, you need to add the necessary variables to the `auth.ts` file, in order for Better Auth to use them in the Google provider.
+
+```ts title="src/lib/auth.ts"
+import { googleProvider } from "better-auth/providers/google";
+import {
+  BETTER_AUTH_SECRET,
+  BETTER_AUTH_URL,
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+} from "$env/static/private";
+
+export const auth = betterAuth({
+  secret: BETTER_AUTH_SECRET,
+  url: BETTER_AUTH_URL,
+
+  // Authentication providers
+  socialProviders: {
+    google: {
+      clientId: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+    },
+  },
+});
+```
+
+Remember the `auth-client.ts` file? We can take the auth client from there and use it to sign in with Google. Ordinarily, this would be attached to some sort of button. Go to your `src/routes/index.svelte` file and add the following code:
+
+```svelte title="src/routes/index.svelte"
+<script>
+  import { authClient } from "$lib/auth-client";
+
+  const signIn = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      /**
+       * You should set this to where you want your user to land as they sign in.
+       */
+      callbackURL: "/dashboard",
+
+      /**
+       * This is the URL that will be used to create a new user.
+       * If you don't set this, the user will be redirected to the callbackURL.
+       */
+      newUserCallbackURL: "/dashboard",
+    });
+  };
+</script>
+
+<button on:click={signIn}>Sign in with Google</button>
+```
+
+If you set it up correctly, you should:
+
+- be redirected to the Google sign-in flow
+- after completing the flow, be redirected to the `/dashboard` route
+- see a new user in your database
+
+Now you can sign in with Google! Better Auth takes care of creating a new user in the database, and also, if the user already exists, it reuses it. It also creates a session for the user, which is used to keep the user logged in.
+
+Now, we will actually set up an authenticated route.
+
+## 7. Tying it all together
+
+Usually, you will have some sort of part of your application that is protected as a whole, like a dashboard for your user. For this dashboard, we want to check if the user is authenticated every time they try to access any part of it.
+
+In SvelteKit, you have the concept of [layouts](https://svelte.dev/docs/kit/routing#layout). Layouts are a way to wrap your pages in a common layout, perfectly suited for this use case.
+
+The thing is, if we just created a `routes/auth` directory, the path for any page under it would be `/auth/...`. This is not what we want. We want the layout load function to be able to check it for all of them, but not have the `/auth` prefix in the URL.
+
+To achieve this, we can create a [layout group](<https://svelte.dev/docs/kit/advanced-routing#Advanced-layouts-(group)>). This way, we can create layouts for all of the pages under the `(auth)` directory, but not have the `/auth` prefix in the URL.
+
+Enough talking, let's create the authenticated layout. Create a new file in the `src/routes/(auth)` directory (create the directory if it doesn't exist) called `+layout.server.ts`.
+
+```ts title="src/routes/(auth)/+layout.server.ts"
+import type { LayoutServerLoad } from "./$types";
+import { redirect } from "@sveltejs/kit";
+import { auth } from "$lib/auth";
+
+/**
+ * Layout server load function
+ *
+ * This function checks if the user is authenticated.
+ * If not, it redirects to the login page.
+ */
+export const load: LayoutServerLoad = async ({ request }) => {
+  const session = await auth.api.getSession({
+    headers: request.headers,
+  });
+
+  /**
+   * This is the important part.
+   * If the user is not authenticated, redirect to the login page.
+   */
+  if (!session) {
+    throw redirect(302, "/login");
+  }
+
+  /**
+   * If the user is authenticated, let them through, and add the user to the page data.
+   */
+  return {
+    user: session.user,
+  };
+};
+```
+
+Now, create a new page under the `(auth)` directory called `/dashboard/+page.svelte`. On any page under the `(auth)` directory, you can access the user from the page data.
+
+```svelte title="src/routes/(auth)/dashboard/+page.svelte"
+<script lang="ts">
+	import { page } from '$app/state';
+	import type { PageData } from './$types';
+
+	const { user } = page.data as PageData
+</script>
+
+<div>
+	{#if user}
+		<p>{user.email}</p>
+	{/if}
+</div>
+```
+
+Now, you should be able to achieve the following:
+
+- Click the "Sign in with Google" button
+- Be redirected to the Google sign-in flow
+- After completing the flow, be redirected to the `/dashboard` route
+- See the user's email on the page
+
+## 8. Log out
+
+Now for the final part. We want to be able to log out. We will add a button to the `dashboard/+page.svelte` file.
+
+```svelte title="src/routes/(auth)/dashboard/+page.svelte"
+<script lang="ts">
+  import { goto } from "$app/navigation";
+  import { signOut } from "$lib/auth-client";
+  import { page } from "$app/state";
+  import type { PageData } from "./$types";
+
+	const { user } = page.data as PageData
+
+  const onLogout = signOut({
+		fetchOptions: {
+			onSuccess: () => goto('/')
+		}
+	});
+</script>
+
+<div>
+	{#if user}
+		<p>{user.email}</p>
+	{/if}
+</div>
+
+<button on:click={onLogout}>Log out</button>
+```
+
+Now, clicking the logout button should log you out and redirect you to the home page. Now, if you try to access the `/dashboard` route, you shouldn't be able to.
+
+## 9. Conclusion
+
+And that's it! You now have a fully working authentication system in your Svelte 5 project. That wasn't so hard, was it?
+
+If something went wrong, or you have any questions, feel free to ask me in the comments below. If you liked this article, please share it with your friends!
+
+For my next article, I will be guiding you through my new project, called Hero Generator, where I will be using Svelte 5 and Better Auth to actually build a full-stack application.
+
+See you there!

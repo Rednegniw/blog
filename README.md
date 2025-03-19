@@ -10,7 +10,6 @@ Current to-do list:
 - [x] Clean up the unnecessary pages and articles
 - [x] Add a welcome article post
 - [x] Add a project of mine
-- [ ] Add a tutorial
-- [ ] Enable comments
-	- [ ] Add article about it?
+- [x] Add a tutorial
+- [x] Enable comments
 - [ ] Add PostHog for analytics

@@ -36,18 +36,10 @@ const favicon16 = await getImage({ src: Favicon, width: 16, height: 16 });
 
 // Optimize open graph image
 let openGraphImage;
+
 if (article?.cover) {
   openGraphImage = await getImage({
     src: article.cover,
-    width: 1200,
-    height: 630,
-  });
-} else {
-  const importedOgImage = await import(`../assets/og-image.png`).then(
-    (m) => m.default
-  );
-  openGraphImage = await getImage({
-    src: importedOgImage,
     width: 1200,
     height: 630,
   });
@@ -97,36 +89,8 @@ const isProduction = import.meta.env.PROD;
         creator: twitterCreator.replace("https://twitter.com/", "@"),
         title,
         description,
-        image: openGraphImage.src,
       }) ||
         {}),
-    }}
-    openGraph={{
-      basic: {
-        type: "website",
-        url: Astro.url,
-        title,
-        image: openGraphImage.src,
-      },
-      image: {
-        url: openGraphImage.src,
-        type: `image/${openGraphImage.options.format}`,
-        width: openGraphImage.options.width,
-        height: openGraphImage.options.height,
-        alt: title,
-      },
-      optional: {
-        locale: SITE_METADATA.language,
-        description,
-      },
-      ...(article && {
-        article: {
-          publishedTime: article.publishedTime.toISOString(),
-          modifiedTime: article.modifiedTime?.toISOString(),
-          authors: article.authors,
-          tags: article.tags,
-        },
-      }),
     }}
   />
   <ClientRouter />

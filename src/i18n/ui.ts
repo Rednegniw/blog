@@ -5,7 +5,7 @@ export const ui = {
     // Site Metadata
     'siteMetadata.title': 'Antonín Wingender\'s blog',
     'siteMetadata.headerTitle': 'Antonín Wingender\'s blog',   
-    'siteMetadata.description': 'A blog about my projects and ideas I\'ve come across.',
+    'siteMetadata.description': 'A blog about my projects and ideas I\'ve come across. I also write tutorials and guides.',
     'siteMetadata.language': 'en-US',
 
     // Pages

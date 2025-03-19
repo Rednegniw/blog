@@ -14,7 +14,7 @@ interface Props {
   ogImage?: string;
   robots?: string; // default to SITE_METADATA.robots
   titleTemplate?: string;
-  article?: CollectionEntry<"blog">['data'];
+  article?: CollectionEntry<"blog">["data"];
 }
 
 const {
@@ -130,8 +130,10 @@ const isProduction = import.meta.env.PROD;
     }}
   />
   <ClientRouter />
-  {isProduction && <script 
-    defer 
-    src="https://assets.onedollarstats.com/stonks.js"> 
-  </script>}
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  {
+    isProduction && (
+      <script defer src="https://assets.onedollarstats.com/stonks.js"></script>
+    )
+  }
 </head>

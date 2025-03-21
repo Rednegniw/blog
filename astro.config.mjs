@@ -7,7 +7,6 @@ import { SITE_METADATA } from "./src/consts.ts";
 import metaTags from "astro-meta-tags";
 import tailwindcss from "@tailwindcss/vite";
 import robotsTxt from "astro-robots-txt";
-
 import expressiveCode from "astro-expressive-code";
 
 // https://astro.build/config

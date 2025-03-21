@@ -1,0 +1,24 @@
+{
+	"id": "caffeine-clock",
+	"title": "Caffeine Clock",
+	"description": "A simple app to help you track your caffeine intake. Developed for my own use, but I decided to publish it on the Play Store and App Store.",
+	"image": "@/assets/images/projects/caffeine-clock.png",
+	"playStoreLink": "https://play.google.com/store/apps/details?id=com.AWSoft.CaffeineClock&hl=en",
+	"appStoreLink": "hhttps://apps.apple.com/us/app/caffeine-clock/id6504160396",
+	"releaseDate": "2024-07-20",
+	"status": "released",
+	"techStack": [
+		{
+			"name": "Expo",
+			"link": "https://expo.dev/",
+			"icon": "@/assets/images/icons/expo.svg",
+			"usedFor": "The app is built using React Native and Expo"
+		},
+		{
+			"name": "SQLite",
+			"link": "https://www.sqlite.org/index.html",
+			"icon": "@/assets/images/icons/sqlite.svg",
+			"usedFor": "Storing the data locally on the device"
+		}
+	]
+}

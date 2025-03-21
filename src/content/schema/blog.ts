@@ -23,5 +23,6 @@ export const blog = defineCollection({
         .default(POST_METADATA.defaultLayout as "simple" | "column"),
       tags: z.array(reference("tags")),
       related: z.array(reference("blog")).default([]),
+      relatedProjects: z.array(reference("projects")).default([]),
     }),
 });

@@ -97,7 +97,7 @@ const isProduction = import.meta.env.PROD;
   <link rel="sitemap" href="/sitemap-index.xml" />
   {
     isProduction && (
-      <script defer src="https://assets.onedollarstats.com/stonks.js"></script>
+      <script defer is:inline src="https://assets.onedollarstats.com/stonks.js" />
     )
   }
 </head>

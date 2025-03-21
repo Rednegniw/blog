@@ -1,26 +1,15 @@
 ---
-import Card from "@/components/Card.astro";
+import { ProjectCard } from "@/components/react/ProjectCard";
+import { ProjectCardGrid } from "@/components/react/ProjectCardGrid";
 import { useTranslations } from "@/i18n";
 import RootLayout from "@/layouts/RootLayout.astro";
+import { getCollection } from "astro:content";
 
 const t = useTranslations();
 
-const projectsData = [
-  {
-    title: "Faviconizer",
-    description: `Faviconizer is a simple tool that allows you to create a favicon for your website.`,
-    imgSrc:
-      "https://www.faviconizer.com/_app/immutable/assets/logo-image.Ce8oJPVb.jpg",
-    href: "https://www.faviconizer.com",
-  },
-  {
-    title: "Caffeine Clock",
-    description: `Caffeine Clock is a caffeine tracker app that helps you see how long caffeine stays in your system.`,
-    imgSrc:
-      "https://play-lh.googleusercontent.com/ZbcmlPmix7NBMQ4oV6C1N90a_Wx_z_4y0Jc4nmu8mnVIA-1CDN8coGMnN-anr9gf3w=w5120-h2880-rw",
-    href: "https://play.google.com/store/apps/details?id=com.AWSoft.CaffeineClock",
-  },
-];
+const projects = await getCollection("projects");
+const releasedProjects = projects.filter((p) => p.data.status === "released");
+const developmentProjects = projects.filter((p) => p.data.status === "development");
 ---
 
 <RootLayout
@@ -38,19 +27,9 @@ const projectsData = [
         {t("pages.projects.showcase")}
       </p>
     </div>
-    <div class="container py-12">
-      <div class="-m-4 flex flex-wrap">
-        {
-          projectsData.map((d) => (
-            <Card
-              title={d.title}
-              description={d.description}
-              imgSrc={d.imgSrc}
-              href={d.href}
-            />
-          ))
-        }
-      </div>
+    <div class="py-12 flex flex-col gap-12">
+      {developmentProjects.length > 0 && <ProjectCardGrid title="Not yet released" projects={developmentProjects} />}
+      {releasedProjects.length > 0 && <ProjectCardGrid title="Released projects / in maintenance" projects={releasedProjects} />}
     </div>
   </div>
 </RootLayout>

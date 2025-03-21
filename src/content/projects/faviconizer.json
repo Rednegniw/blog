@@ -1,0 +1,16 @@
+{
+	"title": "Faviconizer",
+	"id": "faviconizer",
+	"description": "Faviconizer is a simple tool that allows you to create a favicon for your website. I've created this tool when all I wanted was to have a quick .ico file for my website, but all the online tools were annoyingly bloated.",
+	"image": "@/assets/images/projects/faviconizer.png",
+	"link": "https://www.faviconizer.com",
+	"status": "released",
+	"techStack": [
+		{
+			"name": "SvelteKit",
+			"link": "https://svelte.dev",
+			"icon": "@/assets/images/icons/svelte.png",
+			"usedFor": "Frontend, API routes for favicon generation"
+		}
+	]
+}

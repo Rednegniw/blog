@@ -45,7 +45,7 @@ if (article?.cover) {
   });
 }
 
-const twitterCreator = article?.authorTwitter || creator.data.twitter;
+const twitterCreator = creator?.data.twitter;
 const isProduction = import.meta.env.PROD;
 ---
 
@@ -59,6 +59,19 @@ const isProduction = import.meta.env.PROD;
     noindex={robots.includes("noindex")}
     url={Astro.url}
     charset="utf-8"
+    openGraph={{
+      basic: {
+        title,
+        type: "website",
+        image: openGraphImage?.src || "",
+      },
+      image: {
+        url: openGraphImage?.src || "",
+        width: 1200,
+        height: 630,
+        alt: title,
+      },
+    }}
     extend={{
       meta: [
         {
@@ -78,20 +91,17 @@ const isProduction = import.meta.env.PROD;
         { rel: "apple-touch-icon", sizes: "76x76", href: appleTouchIcon.src },
         { rel: "icon", type: "image/svg", sizes: "32x32", href: favicon32.src },
         { rel: "icon", type: "image/svg", sizes: "16x16", href: favicon16.src },
-        { rel: "mask-icon", href: favicon16.src, color: "black" },
+        { rel: "mask-icon", href: favicon16.src },
         { rel: "alternate", type: "application/rss+xml", href: "/rss.xml" },
       ],
-    }}
+    }},
     twitter={{
-      ...((twitterCreator && {
-        card: "summary_large_image",
-        // site: creator.data.twitter,
-        creator: twitterCreator.replace("https://twitter.com/", "@"),
-        title,
-        description,
-        images: [openGraphImage?.src],
-      }) ||
-        {}),
+      card: "summary_large_image",
+      site: creator?.data.twitter,
+      creator: twitterCreator?.replace("https://twitter.com/", "@"),
+      title,
+      description,
+      image: openGraphImage?.src,
     }}
   />
   <ClientRouter />

@@ -13,10 +13,8 @@ interface ProjectCardProps {
 }
 
 export const ProjectCard = ({ project }: ProjectCardProps) => {
-  console.log(project.image);
-
   return (
-    <Card className="space-y-4 hover:border-primary/50 transition-all duration-300">
+    <Card className="space-y-4 transition-all duration-300">
       <CardContent className="p-0 flex h-full">
         <div className="flex flex-col gap-2 w-full">
           <img

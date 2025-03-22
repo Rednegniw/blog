@@ -13,5 +13,10 @@
 		"id": "tutorial",
 		"name": "Tutorial",
 		"description": "Tutorials and guides about various topics."
-	}	
+	},
+	{
+		"id": "project",
+		"name": "Project",
+		"description": "Posts about my projects."
+	}
 ]

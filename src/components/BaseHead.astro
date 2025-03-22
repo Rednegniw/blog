@@ -89,6 +89,7 @@ const isProduction = import.meta.env.PROD;
         creator: twitterCreator.replace("https://twitter.com/", "@"),
         title,
         description,
+        images: [openGraphImage?.src],
       }) ||
         {}),
     }}

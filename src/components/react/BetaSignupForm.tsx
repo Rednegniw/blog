@@ -4,11 +4,19 @@ import { Button } from '@/components/ui/button';
 
 export default function BetaSignupForm() {
   const [email, setEmail] = useState('');
+  // Honeypot field state - this should always remain empty for legitimate users
+  const [honeypot, setHoneypot] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<{ success?: boolean; message?: string; error?: string } | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Honeypot validation - if this field is filled, it's likely a bot
+    if (honeypot.trim() !== '') {
+      // Silently reject the submission without showing an error to avoid tipping off bots
+      return;
+    }
     
     if (!email.trim()) {
       setResult({ error: 'Please enter your email address' });
@@ -51,6 +59,22 @@ export default function BetaSignupForm() {
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* 
+            Honeypot field for spam prevention
+            This field is hidden from humans but visible to bots
+            If filled, the submission is rejected as spam
+          */}
+          <input
+            type="text"
+            name="website"
+            value={honeypot}
+            onChange={(e) => setHoneypot(e.target.value)}
+            style={{ display: 'none' }}
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+          />
+          
           <input
             type="email"
             value={email}

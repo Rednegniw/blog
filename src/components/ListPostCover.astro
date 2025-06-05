@@ -12,15 +12,16 @@ type Props = {
 };
 
 const {
-  post: { data: { cover, title, date } },
+  post: { data: { cover, thumbnail, title, date } },
 } = Astro.props;
+console.log(thumbnail, cover);
 ---
 
 <div class="relative h-[200px] overflow-hidden bg-primary-50 dark:bg-opacity-10 rounded-lg" class:list={Astro.props.class}>
   {
-    cover && (
+    (thumbnail || cover) && (
       <Image
-        src={cover}
+        src={thumbnail || cover}
         alt={title}
         widths={[300, 600, 1000]}
         sizes="(max-width: 767px) 100vw, 300px"

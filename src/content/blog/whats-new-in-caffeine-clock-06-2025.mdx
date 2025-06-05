@@ -1,0 +1,153 @@
+---
+title: "What's new in Caffeine Clock - June 2025"
+date: "2025-06-02"
+draft: false
+postLayout: simple
+summary: "A quick update on the progress of Caffeine Clock, my caffeine tracker app, what's new and a sneak peek at a totally new version of the app."
+cover: "@/assets/images/whats-new-in-caffeine-clock-06-2025/cover-image.png"
+thumbnail: "@/assets/images/whats-new-in-caffeine-clock-06-2025/thumbnail.png"
+tags:
+  - caffeine-clock
+  - project
+relatedProjects:
+  - caffeine-clock
+---
+
+import { Image } from "astro:assets";
+import { Button } from "@/components/ui/button";
+import Highlight from "@/components/Highlight.astro";
+import Link from "@/components/solidjs/Link";
+import BetaSignupForm from "@/components/react/BetaSignupForm";
+import dashboardComparison from "../../assets/images/whats-new-in-caffeine-clock-06-2025/dashboard-comparison.png";
+import analytics from "../../assets/images/whats-new-in-caffeine-clock-06-2025/analytics.png";
+import thumbnail from "../../assets/images/whats-new-in-caffeine-clock-06-2025/thumbnail.png";
+
+# What I've been working on
+
+Hey everyone! On this blog, I've never shared any updates about Caffeine Clock, my caffeine tracking app. Let's change that! A little bit of background:
+
+I have not worked on Caffeine Clock for a while (since January), as I was focusing on work and life stuff instead of working on my side projects. In the meantime, the app has been growing with a steady stream of new users, with about 500 users/month. Not a lot, mind you, but considering I've spent zero effort on any advertising or marketing, it's been nice to see any traction at all.
+
+I've been thinking about what to do with the app for a while now, and I've decided to spend a lot of time on it and finally make it the app I always wanted it to be. The current version doesn't really feel like the vision I have for it, and I want to do it justice.
+
+## What is Caffeine Clock?
+
+Caffeine Clock is a mobile app that helps you track your caffeine intake throughout the day. It's a simple app that allows you to log your caffeine consumption and see how it affects your body.
+
+My idea for it was to make it easy to see how much caffeine you've had, and how much time it takes for your body to metabolize it, so you can make informed decisions about when to drink your next cup of coffee. The app currently has about 120+ consumable items, ability to add your own consumptions, see your daily caffeine intake, and receive notifications when your caffeine level is low again.
+
+It is a relatively simple app in its current form, but people already find it useful and I am convinced that if it was given a lot of love, it might become the best caffeine tracking app out there.
+
+## Performance improvements
+ 
+The app received some negative reviews that had to do with the app being choppy and slow, and before I did any major rewrites, which would take time, I wanted to make the app more stable and fix the issues. As this is a developer blog, I'll share some of the technical details as well.
+
+## Why is the app choppy?
+
+The main reason is probably that the app's data model is actually somewhat complex, maybe more than it really needs to be. The app stores items in three places:
+
+- The list of consumable items is stored in Supabase and fetched when you first open the app, or when you reopen it after a while.
+- The actual consumptions you make are stored in a SQLite database on device.
+- The data is cached in AsyncStorage.
+
+Over time I've realized this model is not ideal, and has actually made development more difficult than it needed to be. This is because:
+
+- For this sort of app, you don't need to fetch the data from the internet. Not only does it introduce a dependency on having an internet connection, but it also means that the app is slower to load. The data about consumable items is not changing often and is not very large.
+- It also means that the data can become inconsistent with the app. If the unchanging data was always brought in alongside the app, it would be much easier to assume compatibility of the data model with what is stored in the database.
+
+Whenever the app tries to compose the data about consumable items, their units, and connect it to the consumptions you've made, it has to do a lot of unnecessary work stemming from the fact that the data isn't well handled. This is a large part of the reason the app is choppy and slow.
+
+Obviously, this is hard to see when you're first developing the app, not knowing about its particular complexities. But with the knowledge I have now, I have many ideas on how to improve it.
+
+## Some of the performance improvements
+
+I've introduced some early performance improvements, which I'll outline here.
+
+**Image caching during app loading**: One thing that was really bothering me was how the app would flicker and reload images every time you opened it, and the performance would drop as a result. I implemented proper image caching using Expo's image components, so now when you launch the app, all the images fetched from Supabase are cached. When you load the image, it doesn't need to do a round trip to the server.
+
+**Memoized component lists**: This was a big one. The `ConsumableItemsList` component (which shows all your coffee, tea, and energy drink options) was re-rendering way too often. I wrapped it with `React.memo()` and optimized the dependencies, which made scrolling through your consumables buttery smooth.
+
+```tsx title="src/components/consumableItems/ConsumableItemsList.tsx"
+const ConsumableItemsList = memo(({ items, onSelect }) => {
+  // Now this only re-renders when items actually change
+  return (
+    <FlashList
+      data={items}
+      renderItem={({ item }) => <ConsumableItem item={item} onSelect={onSelect} />}
+      estimatedItemSize={80}
+    />
+  );
+});
+```
+
+**MMKV instead of AsyncStorage**: This one was a game-changer. I replaced AsyncStorage with <Link href="https://github.com/mrousavy/react-native-mmkv" target="_blank">react-native-mmkv</Link> for storing the data we fetch from Supabase locally. MMKV is significantly faster, especially for the frequent reads and writes we do when tracking caffeine intake throughout the day.
+
+These improvements should hopefully resolve the worst chopping issues the app had, particularly when displaying large lists of consumables. As I know all too well, the app still isn't always smooth, because for that, it would need a more complete rewrite.
+
+And speaking of a rewrite...
+
+# Caffeine Clock 2.0 is coming
+
+I'm working on Caffeine Clock 2.0, and it's going to be a complete redesign from the ground up. It will be what Caffeine Clock 1.0 should have been, and my plan is to make it the ultimate caffeine tracking app.
+
+## Some background on the current version
+
+When I first started working on Caffeine Clock, it was a bit of a jump into the unknown. I am a fairly proficient React developer, with multiple projects under my belt, but I had never worked with React Native before or really made an app before.
+
+I was working from Japan back then (April 2024) and I wanted to track all the coffees and Starbucks I was drinking over there each day so I thought - why not make an app for that? Surely, I could do it in a few days.
+
+While in Japan I made a working prototype over some rainy weekends, there was a lot of work to bring it to a level I felt happy with releasing. I procrastinated a lot, and then released the app around the end of September 2024.
+
+I was honestly happy to just release something - mobile app development brought with it many challenges I was not used to - the way the app behaves differently not only between iOS and Android, but also between different versions of the platforms themselves. Also, the state of libraries and standards for web developers is so much more fleshed out - it is very painful to just get your app built and running on a simulator, particularly when you've never done it before. I spent long evenings just getting the app to build and not crash on either of the platforms.
+
+Rambling aside, the app was released and I've gotten some good initial feedback - that while the app had a nice, simple design and was functional, a lot of functionality was still missing for it to be THE app for caffeine tracking.
+
+Now, I'm more experienced and I'm more confident in my abilities, and I'm ready to take on the challenge of building the app I really envisioned.
+
+## What's coming in 2.0
+
+I'm completely rebuilding Caffeine Clock from the ground up with some exciting new features:
+
+📊 **Brand new graph-based dashboard**: The current dashboard is very basic and not where I want it to be. The countdown timer, while useful, is not really good at presenting the changing levels of caffeine in your system. The new dashboard will be a beautiful graph-based dashboard that will show you your current caffeine levels, and how they change over time. My current thinking is to have a graph of caffeine levels over time (the current day), which will give you an easy overview of today's caffeine consumption.
+
+Look at the following comparison of the current dashboard and the new one:
+
+<div class="flex justify-center">
+  <Image quality={100} src={dashboardComparison} alt="Comparison of the current dashboard and the new one" width={600} />
+</div>
+
+As you can see, the new dashboard feels much more like a health tracking app, showing your caffeine levels rising and falling over time.
+
+👋 **Proper onboarding flow**: Right now, the app just assumes everyone has the same caffeine tolerance, and just asks you for your basic assessment when you first start using the app.
+
+**The new onboarding flow, which will be an optional questionnaire, will ask much more in order to calculate your caffeine threshold:** your weight, height, pregnancy status, usual sleep schedule, smoking status, and more.
+
+**Also, the app will now allow you to set the time you usually go to bed**, so it can inform you better about whether the caffeine you're consuming would be detrimental to your sleep.
+
+📈 **Much improved analytics**: I'm adding multiple new graph types - hourly caffeine curves, weekly heatmaps, correlation charts with sleep quality, and a completely redesigned version of the current timeline view.
+
+See some sneak peeks of the new analytics:
+
+<div class="flex justify-center">
+  <Image quality={100} src={analytics} alt="Analytics" width={600} />
+</div>
+
+🧪 **Better caffeine calculation**: This is probably the most important improvement. Instead of the simple calculation I have now, where the app is essentially ignoring how much the items you've consumed are actually absorbed, I'm implementing a proper pharmacokinetic model with an absorption phase, peak phase, and decay phase. This will give you much more accurate insights into when caffeine is actually affecting your system.
+
+I'll make a dev diary post about this, so stay tuned for that!
+
+## What's next
+
+**First**, I would like to refactor the way the app is using data. I am going to include the consumable items with the app itself, so that the app can be used offline and doesn't need to fetch the data from the internet. This will include the images and will need some refactoring of current consumptions.
+
+I am aiming to make this process basically invisible, so you just update the app and it migrates itself to the new data model in the background.
+
+**Second**, I'm going to redo the app as outlined above. I'll be sharing dev diary posts leading up to the release, for those interested in the technical details. I'm going to release a beta version when the rewrite is in a good state, in order to get the feedback from the users.
+
+**Third**, I'm going to release the app to the "wide public", and I'm going to try to do some sort of marketing for it as well. As with everything, I'll be sharing the process here on the blog.
+
+## Sign up for the beta
+
+If you're interested in beta testing when it's ready, I'd love to have you try it out! The feedback from early users will be super valuable for making sure I'm building something people actually want to use.
+
+<BetaSignupForm client:load />

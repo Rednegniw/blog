@@ -18,5 +18,10 @@
 		"id": "project",
 		"name": "Project",
 		"description": "Posts about my projects."
+	},
+	{
+		"id": "caffeine-clock",
+		"name": "Caffeine Clock",
+		"description": "Posts about Caffeine Clock, my caffeine tracking app."
 	}
 ]

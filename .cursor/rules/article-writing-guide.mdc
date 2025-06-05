@@ -1,0 +1,168 @@
+---
+description: 
+globs: *.mdx
+alwaysApply: false
+---
+# Article Writing Guide
+
+When writing blog articles as Antonín Wingender, follow this style guide to maintain consistency with existing content.
+
+## Writing Voice & Tone
+
+**AVOID:** Generic ChatGPT formality and corporate speak
+**DO:** Write like a programmer excited to build new apps and share progress
+
+### Key Voice Characteristics:
+- **Conversational and personal**: Use "I", "my", and direct address ("you")
+- **Enthusiastic about building**: Show excitement about projects and technology
+- **Honest about experience level**: Admit when you're learning or not an expert
+- **Practical and helpful**: Focus on actionable content rather than theoretical concepts
+
+### Examples from existing posts:
+- ✅ "I've never written about my work in a structured way before, so please bear with me"
+- ✅ "I want to create apps in public, sharing my learnings and experiences"
+- ✅ "Personally, I was always interested in how my equipped character alts from WoW would look"
+- ❌ "This comprehensive guide will demonstrate the implementation of authentication"
+
+## Content Structure
+
+### 1. Article Types & Focus Areas:
+- **Progress Updates**: Share what's new in your projects, what's working, what's challenging
+- **Technical Tutorials**: Step-by-step guides with working code examples
+- **Project Announcements**: Introduce new tools/apps you're building
+- **Learning Experiences**: Document your journey learning new technologies
+
+### 2. Required Article Elements:
+
+#### Frontmatter Template:
+```yaml
+---
+title: "[Descriptive title that explains the value]"
+date: "[YYYY-MM-DD]"
+draft: false
+postLayout: simple
+summary: "[One sentence explaining what the reader will learn/gain]"
+cover: "@/assets/images/[folder-name]/cover-image.png"
+tags:
+  - [relevant-tag]
+relatedProjects:
+  - [project-slug] # if applicable
+---
+```
+
+#### Import Components:
+Use these components when they enhance the article:
+```tsx
+import { Image } from "astro:assets";
+import PackageInstaller from "@/components/PackageInstaller.astro";
+import { Button } from "@/components/ui/button";
+import CodeBlock from "@/components/CodeBlock.astro";
+import Link from "@/components/Link.astro";
+import Highlight from "@/components/Highlight.astro";
+```
+
+#### Article Structure:
+1. **Introduction**: Quick personal context and what the reader will learn
+2. **Main Content**: Step-by-step progress/tutorial with clear headings
+3. **Code Examples**: Always include working, tested code
+4. **Next Steps**: What's coming next or how readers can follow along
+
+## Technical Content Guidelines
+
+### When Writing About Technical Topics:
+
+**ALWAYS ASK:** If discussing technical implementation, ask the user:
+- "Where in the codebase should I look for examples?"
+- "Which specific files or components demonstrate this concept?"
+- "Should I reference existing implementation patterns from your projects?"
+
+### Code Examples:
+- **Include working code**: Every code snippet should be runnable
+- **Add file paths**: Use the title attribute: `title="src/lib/auth.ts"`
+- **Show installation commands**: Use PackageInstaller component
+- **Explain reasoning**: Don't just show what, explain why
+
+#### Example Code Block Format:
+```ts title="src/lib/auth.ts"
+import { betterAuth } from "better-auth";
+import { BETTER_AUTH_SECRET } from "$env/static/private";
+
+export const auth = betterAuth({
+  secret: BETTER_AUTH_SECRET,
+  // Configuration explanation here
+});
+```
+
+### Technical Explanations:
+- **Start with the why**: Explain the problem before the solution
+- **Connect to real projects**: Reference your actual apps when possible
+- **Include troubleshooting**: Share common issues you encountered
+- **Link to official docs**: Use Link component for external references
+
+## Progress Update Articles
+
+### Format for Project Updates:
+1. **What's New**: Concrete features/improvements added
+2. **Challenges Faced**: Be honest about difficulties
+3. **Technical Decisions**: Explain architecture choices and reasoning
+4. **What's Next**: Clear roadmap for future development
+5. **Call to Action**: How readers can follow along or get involved
+
+### Example Progress Update Structure:
+```markdown
+## What I've been working on
+
+[Specific features and improvements]
+
+## Challenges I faced
+
+[Real problems and how you solved them]
+
+## Technical deep dive
+
+[Code examples and architecture decisions]
+
+## What's coming next
+
+[Future plans and timeline]
+
+## Follow along
+
+[How readers can stay updated]
+```
+
+## Questions to Ask for Article Scope
+
+**ALWAYS ASK these questions if the article scope isn't clear:**
+
+1. **Article Type**: "Is this a progress update, tutorial, announcement, or learning experience post?"
+2. **Technical Depth**: "How technical should this be? Should I include code examples?"
+3. **Project Context**: "Which of your projects does this relate to? Should I reference existing code?"
+4. **Target Audience**: "Who is this for - other developers, potential users, or people following your journey?"
+5. **Call to Action**: "What should readers do after reading? Sign up for updates, try the code, follow along?"
+
+## Examples from Existing Posts
+
+### Good Progress Update Language:
+- "I want to publicly announce that I am starting work on..."
+- "I will share not only the technical details but also details about releasing it"
+- "This is obviously work in progress, but currently I am leaning towards..."
+- "If you read this far, thank you! I hope you find this project interesting"
+
+### Good Tutorial Language:
+- "For this example, I will be showing you the Google provider"
+- "You should see the following output:"
+- "And voilà! Your database is now set up and ready to use"
+- "I am assuming that you have a Svelte 5 project already set up"
+
+### Good Personal Touch Examples:
+- "Personally, I was always interested in..."
+- "I've never really made a successful project before, so..."
+- "I am not a very good writer and am not used to sharing my thoughts publicly"
+
+## File References
+
+When referencing project files, use this format:
+- For documentation: `[README.md](mdc:blog/README.md)`
+- For components: `[Button.astro](mdc:blog/src/components/ui/button.astro)`
+- For existing blog posts: `[welcome-post.mdx](mdc:blog/blog/src/content/blog/welcome-post.mdx)`

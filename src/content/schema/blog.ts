@@ -12,6 +12,7 @@ export const blog = defineCollection({
     z.object({
       title: z.string(),
       cover: image().optional(),
+      thumbnail: image().optional(),
       date: z.coerce.date(),
       lastmod: z.coerce.date().optional(),
       draft: z.boolean().default(false),

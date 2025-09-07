@@ -1,0 +1,124 @@
+---
+title: "Caffeine Clock 2.0 Beta Is Out!"
+date: "2025-06-02"
+draft: false
+postLayout: simple
+summary: "An update on progress of Caffeine Clock 2.0, beta announcement, and features overview for the new version."
+cover: "@/assets/images/whats-new-in-caffeine-clock-06-2025/cover-image.png"
+thumbnail: "@/assets/images/whats-new-in-caffeine-clock-06-2025/thumbnail.png"
+tags:
+  - caffeine-clock
+  - project
+relatedProjects:
+  - caffeine-clock
+---
+
+Hi everyone!
+
+It's been some time since I gave you an update on the progress on my app, Caffeine Clock (the best caffeine tracker in the world, of course). There has been quite a lot of progress in the three months, and I spent a lot of time developing the new version up to the level of quality I want out of it.
+
+# Beta announcement
+
+**Caffeine Clock 2.0 is officially in open beta!** You can try everything I am talking about in this article for yourself, right now.
+
+If you're on an Android device, you can sign up on Google Play - make sure to scroll down to see the "Join beta" prompt. Join the beta and the new version should update soon.
+
+TODO: Add link
+TODO: Space for Android play button
+
+If you're on an iPhone device, follow this link to join the open beta. You will be prompted to download TestFlight, which will then guide you to install the app. The app then should update automatically, as new beta features are out.
+
+TODO: Add link
+TODO: Space for Iphone Testflight button
+
+# What's new in version 2.0
+
+Version 2.0 is a complete revamp of the application, built anew, almost from the ground up. It features a new dashboard with a beautiful caffeine graph, a new algorithm for calculating caffeine, a comprehensive onboarding to calculate your estimated caffeine profile, brand new analytics section with much more information, and more. Let's go through it one by one:
+
+## New onboarding experience
+
+When you open the app for the first time, you will be greeted by a prompt to calculate your **caffeine profile**. 
+
+TODO: Image
+
+You will then be guided through a questionnaire, which will ask you information such as your sex, weight, height, alcohol-drinking habits, illnesses, and any other things that might impact your caffeine metabolism. **This information is not stored anywhere, not even your device** - it is only used to calculate your caffeine profile numbers at the end of the questionnaire.
+
+You can always change the values later in settings to suit your needs - or run the onboarding questionnaire again.
+
+As I care that the app is as accurate as possible, I've spent quite some time researching the topic of how caffeine works and what are the factors influencing how caffeine deteriorates in the body. I am aiming to provide a source for how each of the questions and answers influences the final number. There is even a summary on the final step of the onboarding, where the app lays out precisely how the number was achieved.
+
+## New dashboard and caffeine graph
+
+The Dashboard has also undergone a significant change, reflecting people's feedback that a graph of caffeine consumption would be better suited for providing the info about their caffeine level.
+
+So that's what I've created, and I spent a lot of time to make sure your caffeine consumption is displayed in the most interesting manner possible. See the new design here:
+
+TODO: Some dashboard screenshot images
+
+You can pan left and right on the list to go back or forwards in time, and long-pressing on the graph brings out the scrubber - which shows you the caffeine amount on an exact time. You can also see **your bedtime** - the blue line shows exactly when you go to sleep so you can see exactly how much caffeine you'll have.
+
+TODO: Scrubbing gesture GIF
+
+The graph is also connected to the list of consumptions beneath - clicking on an item preview will scroll tho the list item in the graph, and vice-versa.
+
+Opening the consumption (by pressing on it) will also show the consumption graph only for that consumption, with the consumption peak time highlighted:
+
+TODO: Some consumption details
+
+## Caffeine calculation
+
+As part of the new release I totally revamped the caffeine calculation algorithm. The new algorithm is similarly accurate to the previous one after the drink reached its peak, but the difference is that it now correctly calculates absorption time of the drink, while actually taking into consideration that you can consume an item over a period of time. When creating a drink, you can now set the how long you've been consuming it, and this is now correctly reflected in the calculation.
+
+These changes should make the app much more accurate at predicting caffeine levels, as previously, the app just didn't account for absorption or drink time at all.
+
+## Analytics section
+
+The app now features brand-new analytics. The analytics are meant to provide even more context for your caffeine consumption. Currently, we have four analytics section, though this might change in the future. I'll describe each section shortly:
+
+### Average caffeine consumption by day (or week or month)
+
+This graph is a bar chart, where each bar is showing the total amount of caffeine you consumed in a given day, and a number under the bar graph is showing your average consumption over the time period. You can see it broken down by **week**, **month**, or **year**.
+
+TODO: Add image of the graph
+
+### Caffeine consumption by category
+
+This analytics page shows the breakdown of which categories of items you consume the most in a given time frame. You have two views available:
+
+- **Category**: The Category view breaks down which categories of items you usually consume (Coffee, Energy Drinks, etc.). The items are summed up and divided by category into percentages, which are then displayed on the pie chart.
+
+TODO: Category item view image
+
+- **Items**: The Items view does the same thing, only for individual items. Interested how much do Cappuccinos add to your caffeine consumption in a given time frame? Well, this view is for you. It breaks down your consumption by the exact items and presents the information in a beautiful donut chart.
+
+TODO: Item view image
+
+### Bedtime caffeine level
+
+This page shows a grid of the current month or week, and shows how much caffeine you've had at bedtime each day. Also, it shows you the current streak - the amount of consecutive days where your caffeine was lower than your caffeine threshold at bedtime.
+
+TODO: Bedtime caffeine level image
+
+### Daytime caffeine amount breakdown
+
+This page shows a vertical bar chart, signifying how much caffeine you've consumed on average at a given time of day - morning, afternoon, evening, and night. You can again choose between different timeframes to show the data.
+
+This page is good to compare, for example, how much caffeine you usually drink in the morning vs the afternoon - and that can prompt you to make better choices.
+
+TODO: Daytime caffeine image
+
+## Language support
+
+Caffeine Clock is now also translated into 5 languages! The current languages are English (the default), Czech (my native language), German, Spanish and French. Now, especially for French and Spanish, these are translated by AI and may not be correct or sound weird. If you're a native Spanish or French speaker and you enjoy Caffeine Clock, and want to help, please do! Please reach out to me at info@caffeineclock.com if you're inclined to do so.
+
+The app selects your phone's language by default if available - otherwise, it defaults to English. Select another language at any time in Settings -> Localization.
+
+# Road to release
+
+As the app is now released into beta, I am planning to give it some time to gather feedback and fix bugs. There is a lot of polishing to be done - namely performance and general UX improvements.
+
+I am planning to release the app out of beta at the end of September, so in about a month. During this time, I also want to gather some hype around the app - post dev diaries about certain features, create a marketing landing page and post about it online.
+
+So, as I've alluded to earlier, you can now **test the app yourself** via the links above - you can post feedback in the app or to the feedback@caffeineclock.com email - if you write in your email, I'll be sure to respond to you.
+
+Thank you for your support! Let's make this app the best caffeine tracker in the world together.

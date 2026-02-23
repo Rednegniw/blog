@@ -9,25 +9,6 @@ export const SITE_METADATA = {
   siteUrl: "https://awingender.com/",
   siteRepo: "https://github.com/Rednegniw/blog",
   robots: "index, follow",
-  // newsletter: {
-  //     // supports mailchimp, buttondown, convertkit, klaviyo, revue, emailoctopus
-  //     // Please add your .env file and modify it according to your selection
-  //     provider: 'buttondown',
-  // },
-  // search: {
-  //     provider: 'kbar', // kbar or algolia
-  //     kbarConfig: {
-  //         searchDocumentsPath: 'search.json', // path to load documents to search
-  //     },
-  //     // provider: 'algolia',
-  //     // algoliaConfig: {
-  //     //   // The application ID provided by Algolia
-  //     //   appId: 'R2IYF7ETH7',
-  //     //   // Public API key: it is safe to commit it
-  //     //   apiKey: '599cec31baffa4868cae4e79f180729b',
-  //     //   indexName: 'docsearch',
-  //     // },
-  // },
 };
 
 /**

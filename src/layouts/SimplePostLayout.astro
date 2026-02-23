@@ -28,7 +28,6 @@ const authors: CollectionEntry<"authors">[] = await getEntries(
   post.data.authors
 );
 const tags: CollectionEntry<"tags">[] = await getEntries(post.data.tags);
-// const related: CollectionEntry<'blog'>[] = await getEntries(post.data.related);
 
 // Check if post has tutorial tag
 const hasTutorialTag = tags.some((tag) => tag.id === "tutorial");

@@ -1,7 +1,4 @@
 import type {CollectionEntry} from "astro:content";
-import { twMerge, type ClassNameValue } from "tailwind-merge";
-import { clsx } from 'clsx';
-
 /**
  * Filter blog posts by published date and order them.
  * Change the sort order by changing the minus sign to a plus sign, or add your new logic by changing the return value.
@@ -29,10 +26,3 @@ export const excludeDrafts = ({data}: CollectionEntry<'blog'>): boolean => {
     // Usually this should be like this - import.meta.env.PROD ? !data.draft : true; but for the purpose of the demo, we are displaying drafts as well
     return import.meta.env.PROD ? true : true;
 }
-
-/**
- * Utility function to merge tailwind classes.
- * @param classes - Tailwind classes
- * @returns Merged classes
- */
-export const cn = (...classes: ClassNameValue[]) => twMerge(clsx(classes));

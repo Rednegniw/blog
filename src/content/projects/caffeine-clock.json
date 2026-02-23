@@ -4,7 +4,7 @@
 	"description": "A simple app to help you track your caffeine intake. Developed for my own use, but I decided to publish it on the Play Store and App Store.",
 	"image": "@/assets/images/projects/caffeine-clock.png",
 	"playStoreLink": "https://play.google.com/store/apps/details?id=com.AWSoft.CaffeineClock&hl=en",
-	"appStoreLink": "hhttps://apps.apple.com/us/app/caffeine-clock/id6504160396",
+	"appStoreLink": "https://apps.apple.com/us/app/caffeine-clock/id6504160396",
 	"releaseDate": "2024-07-20",
 	"status": "released",
 	"techStack": [

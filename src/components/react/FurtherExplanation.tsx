@@ -4,7 +4,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../ui/collapsible";
-import { cn } from "@/functions";
+import { cn } from "@/lib/utils";
 
 interface FurtherExplanationProps {
   title: string;

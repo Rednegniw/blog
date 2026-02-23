@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Copy, Check, Bot } from "lucide-react";
-import { cn } from "@/functions";
+import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import {
   Tooltip,

@@ -3,7 +3,7 @@ import { NAVIGATION } from "@/consts";
 import { Image } from "astro:assets";
 import HeaderLink from "./HeaderLink.astro";
 import MobileNav from "@/solid/MobileNav.tsx";
-import ThemeSwitcher from "@/solid/ThemeSwitcher.tsx";
+
 import { useTranslations } from "@/i18n";
 import Link from "./Link.astro";
 import avatar from "@/assets/images/avatar.jpg";
@@ -30,7 +30,6 @@ const t = useTranslations();
       ))
     }
     <div class="flex gap-4">
-      <!-- <SearchButton /> -->
       <MobileNav client:only="solid-js" />
     </div>
   </div>

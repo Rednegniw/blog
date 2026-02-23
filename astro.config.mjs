@@ -25,7 +25,7 @@ export default defineConfig({
       include: ["**/solidjs/*"],
     }),
     react({
-      include: ["**/react/*"],
+      include: ["**/react/*", "**/ui/*"],
     }),
     metaTags(),
     robotsTxt(),

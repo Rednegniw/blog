@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Copy, Check } from "lucide-react";
-import { cn } from "@/functions";
+import { cn } from "@/lib/utils";
 
 type PackageManager = "npm" | "pnpm" | "yarn" | "bun";
 

@@ -5,7 +5,7 @@ import Link from "../components/Link.astro";
 import RootLayout from "./RootLayout.astro";
 import { type CollectionEntry, getEntries } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
-import ScrollTopAndComments from "@/solid/ScrollTopAndComments.tsx";
+import ScrollTopAndComments from "@/components/react/ScrollTopAndComments";
 import PostCover from "../components/PostCover.astro";
 import DetailsSummary from "../components/DetailsSummary.astro";
 import SocialShareButtons from "../components/social-icons/SocialShareButtons.astro";
@@ -53,7 +53,7 @@ const articleOgDetails = {
   article={articleOgDetails}
 >
   <SectionContainer>
-    <ScrollTopAndComments client:only="solid-js" />
+    <ScrollTopAndComments client:only="react" />
     <article class="md:mt-10">
       <header>
         <div class="space-y-1 pb-10 text-center dark:border-gray-700">

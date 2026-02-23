@@ -5,7 +5,6 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@/solid/*": ["src/components/solidjs/*"],
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"

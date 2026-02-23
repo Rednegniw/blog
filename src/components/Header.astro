@@ -2,7 +2,7 @@
 import { NAVIGATION } from "@/consts";
 import { Image } from "astro:assets";
 import HeaderLink from "./HeaderLink.astro";
-import MobileNav from "@/solid/MobileNav.tsx";
+import MobileNav from "@/components/react/MobileNav";
 
 import { useTranslations } from "@/i18n";
 import Link from "./Link.astro";
@@ -30,7 +30,7 @@ const t = useTranslations();
       ))
     }
     <div class="flex gap-4">
-      <MobileNav client:only="solid-js" />
+      <MobileNav client:only="react" />
     </div>
   </div>
 </header>

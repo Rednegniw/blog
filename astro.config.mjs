@@ -1,7 +1,6 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
-import solidJs from "@astrojs/solid-js";
 import react from "@astrojs/react";
 import { SITE_METADATA } from "./src/consts.ts";
 import metaTags from "astro-meta-tags";
@@ -21,12 +20,7 @@ export default defineConfig({
     }),
     mdx(),
     sitemap(),
-    solidJs({
-      include: ["**/solidjs/*"],
-    }),
-    react({
-      include: ["**/react/*", "**/ui/*"],
-    }),
+    react(),
     metaTags(),
     robotsTxt(),
   ],

@@ -14,7 +14,6 @@ type Props = {
 const {
   post: { data: { cover, thumbnail, title, date } },
 } = Astro.props;
-console.log(thumbnail, cover);
 ---
 
 <div class="relative h-[200px] overflow-hidden bg-primary-50 dark:bg-opacity-10 rounded-lg" class:list={Astro.props.class}>

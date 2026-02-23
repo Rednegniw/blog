@@ -8,7 +8,7 @@ import metaTags from "astro-meta-tags";
 import tailwindcss from "@tailwindcss/vite";
 import robotsTxt from "astro-robots-txt";
 import expressiveCode from "astro-expressive-code";
-import vercel from "@astrojs/vercel/serverless";
+import vercel from "@astrojs/vercel";
 
 // https://astro.build/config
 export default defineConfig({

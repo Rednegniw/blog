@@ -14,11 +14,6 @@ export const ui = {
     'pages.home.noPosts': 'No posts found',
     'pages.home.readMoreAbout': 'Read more about {title}',
     'pages.home.readMore': 'Read more',
-    'pages.tags.title': 'Tags',
-    'pages.tags.description': 'All tags used in the blog',
-    'pages.tags.allTags': 'All tags',
-    'pages.tags.noTags': 'No tags found',
-    'pages.tags.viewPosts': 'View all posts with tag {tag}',
     'pages.projects.title': 'Projects',
     'pages.projects.description': 'All projects',
     'pages.projects.allProjects': 'All projects',
@@ -44,7 +39,6 @@ export const ui = {
     'nav.home': 'Home',
     'nav.blog': 'Blog',
     'nav.projects': 'Projects',
-    'nav.tags': 'Tags',
     'nav.about': 'About',
 
     // Layouts

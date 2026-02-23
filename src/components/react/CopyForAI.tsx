@@ -20,11 +20,11 @@ export const CopyForAI = ({ content }: CopyForAIProps) => {
     try {
       // Strip markdown and format content for AI
       const formattedContent = content
-        .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // Convert links to plain text
-        .replace(/#+\s(.*)/g, "$1") // Remove heading markers
-        .replace(/\*\*(.*?)\*\*/g, "$1") // Remove bold markers
-        .replace(/\*(.*?)\*/g, "$1") // Remove italic markers
-        .replace(/<[^>]*>/g, "") // Remove HTML tags
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+        .replace(/#+\s(.*)/g, "$1")
+        .replace(/\*\*(.*?)\*\*/g, "$1")
+        .replace(/\*(.*?)\*/g, "$1")
+        .replace(/<[^>]*>/g, "")
         .trim();
 
       await navigator.clipboard.writeText(formattedContent);
